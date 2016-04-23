@@ -33,6 +33,7 @@ var TreeSection = React.createClass({
       <section className="trees">
         i am trees
         <TreeList data={this.state.data}/>
+        <TreeForm/>
       </section>
   )}
 });
@@ -57,6 +58,29 @@ var Tree = React.createClass({
       <div>
         {this.props.species} at lat: {this.props.lat} and lng: {this.props.lng}
       </div>
+  )}
+});
+
+var TreeForm = React.createClass({
+  getInitialState: function() {
+    return {species: '', lat: '', lng: ''};
+  },
+  handleSpeciesChange: function(e) {
+    this.setState({species: e.target.value});
+  },
+  handleLatChange: function(e) {
+    this.setState({lat: e.target.value});
+  },
+  handleLngChange: function(e) {
+    this.setState({lng: e.target.value});
+  },
+  render: function() {
+    return (
+      <form className="treeForm">
+        <input type="text" placeholder="species id" value={this.state.species} onChange={this.handleSpeciesChange}/> <br/>
+        <input type="text" placeholder="lat" value={this.state.lat} onChange={this.handleLatChange}/> <br/>
+        <input type="text" placeholder="lng" value={this.state.lng} onChange={this.handleLngChange}/>
+      </form>
   )}
 });
 
