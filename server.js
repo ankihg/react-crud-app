@@ -13,9 +13,11 @@ let models = require(__dirname + '/models');
 
 app.use(bodyParser.json());
 
-const clientServerPath = 'http://127.0.0.1:8080';
+const reactClientPath = 'http://127.0.0.1:8080';
+const angularClientPath = 'http://localhost:8080';
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', clientServerPath);
+  res.header('Access-Control-Allow-Origin', reactClientPath);
+  // res.header('Access-Control-Allow-Origin', angularClientPath);
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   next();
