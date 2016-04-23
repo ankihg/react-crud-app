@@ -9,7 +9,7 @@ var TreeSection = React.createClass({
   getInitialState: function() {
     return {data: []}
   },
-  componentDidMount: function() {
+  getData: function() {
     $.ajax({
       url: this.props.url,
       dataType: 'json',
@@ -23,6 +23,10 @@ var TreeSection = React.createClass({
         console.log(this.props.url, status, err.toString());
       }.bind(this)
     })
+  },
+  componentDidMount: function() {
+    this.getData();
+    setInterval(this.getData, this.props.pollInterval);
   },
   render: function() {
     return (
@@ -57,6 +61,6 @@ var Tree = React.createClass({
 });
 
 ReactDOM.render(
-  <TreeSection url={serverPath+'/trees'}/>,
+  <TreeSection url={serverPath+'/trees'} pollInterval={2000}/>,
   document.getElementById('trees')
 );
