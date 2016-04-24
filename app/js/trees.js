@@ -32,11 +32,26 @@ var TreeSection = React.createClass({
       data: JSON.stringify(data),
       processData: false,
       success: function(res) {
-        this.setState({data: res});
+        // this.setState({data: this.state.data.push(res)});
+        this.state.data.push(res);
       }.bind(this),
       error: function(xhr, status, err) {
         console.log(this.props.url, status, err.toString());
       }.bind(this)
+    });
+  },
+  handleDataDelete: function(id) {
+    $.ajax({
+      url: this.props.url+'/'+id,
+      type: 'DELETE',
+      success: function(res) {
+        this.setState({data: this.state.data.filter(function(data) {
+          return data.id !== id;
+        })});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.log(this.props.url, status, err.toString());
+      }
     });
   },
   componentDidMount: function() {
@@ -47,7 +62,7 @@ var TreeSection = React.createClass({
     return (
       <section className="trees">
         i am trees
-        <TreeList data={this.state.data}/>
+        <TreeList data={this.state.data} handleDataDelete={this.handleDataDelete}/>
         <TreeForm onDataSubmit={this.handleDataSubmit} />
       </section>
   )}
@@ -57,9 +72,9 @@ var TreeList = React.createClass({
   render: function() {
     var treeNodes = this.props.data.map(function(tree) {
       return (
-        <Tree species={tree.species.cmnName} lat={tree.lat} lng={tree.lng}>plz</Tree>
+        <Tree treeID={tree._id} species={tree.species.cmnName} lat={tree.lat} lng={tree.lng} onDelete={this.props.handleDataDelete}>plz</Tree>
       );
-    });
+    }.bind(this));
     return (
       <section>
         {treeNodes}
@@ -68,10 +83,17 @@ var TreeList = React.createClass({
 });
 
 var Tree = React.createClass({
+  del: function(e) {
+    this.props.onDelete(this.props.treeID);
+  },
+  update: function() {
+
+  },
   render: function() {
     return (
       <div>
-        {this.props.species} at lat: {this.props.lat} and lng: {this.props.lng}
+        {this.props.species} at lat: {this.props.lat} and lng: {this.props.lng} <small>id: {this.props.treeID}</small>
+        <button onClick={this.del}>delete</button>
       </div>
   )}
 });
