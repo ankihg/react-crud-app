@@ -122,7 +122,7 @@ var Tree = React.createClass({
         {this.props.tree.species.cmnName} at lat: {this.props.tree.lat} and lng: {this.props.tree.lng} <small>id: {this.props.tree._id}</small>
         <button onClick={this.showUpdateForm}>update</button>
         <button onClick={this.del}>delete</button>
-        <UpdateTreeForm submitUpdate={this.props.onUpdate} hideFrom={this.hideUpdateForm} shouldHide={this.state.shoudHideUpdateFrom} tree={this.props.tree} />
+        <UpdateTreeForm hide={this.hideUpdateForm} submitUpdate={this.props.onUpdate} hideFrom={this.hideUpdateForm} shouldHide={this.state.shoudHideUpdateFrom} tree={this.props.tree} />
       </div>
   )}
 });
@@ -163,6 +163,11 @@ var TreeForm = React.createClass({
 var UpdateTreeForm = React.createClass({
   getInitialState: function() {
     return {species: this.props.tree.species._id, lat: this.props.tree.lat, lng: this.props.tree.lng};
+  }, cancel: function(e) {
+    e.preventDefault();
+    console.log('reset');
+    this.setState({species: this.props.tree.species._id, lat: this.props.tree.lat, lng: this.props.tree.lng});
+    this.props.hide();
   },
   handleSpeciesChange: function(e) {
     this.setState({species: e.target.value});
@@ -188,8 +193,8 @@ var UpdateTreeForm = React.createClass({
         <input type="text" placeholder={this.state.species} value={this.state.species} onChange={this.handleSpeciesChange}/> <br/>
         <input type="text" placeholder={this.state.lat}value={this.state.lat} onChange={this.handleLatChange}/> <br/>
         <input type="text" placeholder={this.state.lng} value={this.state.lng} onChange={this.handleLngChange}/>
-        <button type="cancel" onClick={this.props.hideForm}>cancel</button>
-        <input type="submit" value="post" />
+        <button onClick={this.cancel}>cancel</button>
+        <input type="submit" value="post" onClick={this.handleSubmit}/>
       </form>
   )}
 });
