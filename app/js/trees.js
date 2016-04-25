@@ -162,10 +162,9 @@ var TreeForm = React.createClass({
 
 var UpdateTreeForm = React.createClass({
   getInitialState: function() {
-    return {species: this.props.tree.species._id, lat: this.props.tree.lat, lng: this.props.tree.lng};
+    return {species: this.props.tree.species._id, lat: this.props.tree.lat.toString(), lng: this.props.tree.lng.toString()};
   }, cancel: function(e) {
     e.preventDefault();
-    console.log('reset');
     this.setState({species: this.props.tree.species._id, lat: this.props.tree.lat, lng: this.props.tree.lng});
     this.props.hide();
   },
