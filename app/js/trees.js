@@ -41,9 +41,9 @@ var TreeSection = React.createClass({
     });
   },
   handleDataUpdate: function(data) {
-    console.log('update tree '+data._id);
     $.ajax({
       url: this.props.url+'/'+data._id,
+      contentType: 'application/json',
       type: 'PUT',
       data: JSON.stringify(data),
       processData: false,
