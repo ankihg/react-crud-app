@@ -29,9 +29,8 @@ var SpeciesSection = React.createClass({
       processData: false,
       success: function(res) {
         // this.setState({data: this.state.data.push(res)});
-        console.log('post response');
-        console.log(res);
         this.state.data.push(res);
+        this.setState({data: this.state.data});
         console.log(this.state.data);
       }.bind(this),
       error: function(xhr, status, err) {
@@ -47,12 +46,9 @@ var SpeciesSection = React.createClass({
       data: JSON.stringify(data),
       processData: false,
       success: function(res) {
-        console.log('put success');
-        console.log(data);
         this.state.data = this.state.data.map(function(d) {
           return (d._id === data._id) ? data : d;
         });
-        console.log(this.state.data);
         this.setState({data: this.state.data});
       }.bind(this),
       error: function(xhr, status, err) {
@@ -76,7 +72,7 @@ var SpeciesSection = React.createClass({
   },
   componentDidMount: function() {
     this.getData();
-    setInterval(this.getData, this.props.pollInterval);
+    // setInterval(this.getData, this.props.pollInterval);
   },
   render: function() {
     return (

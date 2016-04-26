@@ -34,6 +34,7 @@ var TreeSection = React.createClass({
       success: function(res) {
         // this.setState({data: this.state.data.push(res)});
         this.state.data.push(res);
+        this.setState({data: this.state.data});
       }.bind(this),
       error: function(xhr, status, err) {
         console.log(this.props.url, status, err.toString());
@@ -48,12 +49,9 @@ var TreeSection = React.createClass({
       data: JSON.stringify(data),
       processData: false,
       success: function(res) {
-        console.log('put success');
-        console.log(data);
         this.state.data = this.state.data.map(function(d) {
           return (d._id === data._id) ? data : d;
         });
-        console.log(this.state.data);
         this.setState({data: this.state.data});
       }.bind(this),
       error: function(xhr, status, err) {
@@ -66,9 +64,10 @@ var TreeSection = React.createClass({
       url: this.props.url+'/'+tree._id,
       type: 'DELETE',
       success: function(res) {
-        this.setState({data: this.state.data.filter(function(data) {
+        this.state.data = this.state.data.filter(function(data) {
           return data.id !== tree._id;
-        })});
+        })
+        this.setState({data: this.state.data});
       }.bind(this),
       error: function(xhr, status, err) {
         console.log(this.props.url, status, err.toString());
@@ -77,7 +76,7 @@ var TreeSection = React.createClass({
   },
   componentDidMount: function() {
     this.getData();
-    setInterval(this.getData, this.props.pollInterval);
+    // setInterval(this.getData, this.props.pollInterval);
   },
   render: function() {
     return (
